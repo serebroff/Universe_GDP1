@@ -15,8 +15,8 @@ var gui = {
     },
 
     Init : function() {
-        this.ar_buttons.lenght = 0;
-        this.ar_popups.lenght = 0;
+        this.ar_buttons= [];//.lenght = 0;
+        this.ar_popups=[];//.lenght = 0;
     },
     OnResize : function() {
         
@@ -48,6 +48,7 @@ var gui = {
         b.b_mouseover = false;
         b.clicktime = 0;
         b.b_popup = false;
+        //b.volume = 1;
         return b;
     },
     Calculate: function() {
@@ -113,8 +114,14 @@ var gui = {
 
         text.font.b_stroke = false;
         ctx.fillRect(b.x - ds, b.y - ds, b.x1 + 2 * ds, b.y1 + 2 * ds);
-
+        if (b.volume < 1 && ds==0)
+        {
+            ctx.fillStyle = "rgb(255,255,0)";
+             ctx.fillRect(b.x + b.x1*b.volume , b.y , b.x1 *(1-b.volume) , b.y1 );
+        }
+        
         ctx.strokeRect(b.x - ds, b.y - ds, b.x1 + 2 * ds, b.y1 + 2 * ds);
+        
         ctx.lineWidth = 1;
         var yy= text.font.size * 1.2;
        if (typeof b.txt2 === 'undefined') yy=b.y1/2 + text.font.size * 0.4;
@@ -160,7 +167,12 @@ var gui = {
         {
             var b= this.ar_buttons[i];
             if (x > b.x && x < (b.x+b.x1) && y > b.y & y < (b.y+b.y1)) {
-                b.clicktime = this.CLICKTIME;
+                
+                if (typeof b.volume !== 'undefined')
+                {
+                    b.volume = (x - b.x) / b.x1;
+                    b.action(b.volume);
+                } else b.clicktime = this.CLICKTIME;
                 return true;
             }
         }

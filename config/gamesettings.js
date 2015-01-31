@@ -63,7 +63,7 @@ var levels = [
 ];
 
 var gametexts = {
-    intro: "Start a big bang.",
+    intro: "This is the Universe before Big Bang. Use mouse (drag and wheel) to navigate",
     addenemies: "У врага пополнение!",        
     b_events: [0,0,0,0,0],
     events: [ 

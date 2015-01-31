@@ -117,9 +117,11 @@ function SetCanvasSize()
 };
 
 window.onresize = function(event) {
-  //  SetCanvasSize();
+  SetCanvasSize();
   //  game.inventory.OnResize();
-  //  game.gamegui.OnResize();
+  gui.Init();
+  game.AddUpgradeButtons();
+
 };
 
 // check is right mouse button pressed (cross-browser)

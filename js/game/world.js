@@ -21,6 +21,15 @@ var BIG_BANG_TIME = 5;
 var MASS_VOLUME = 700;
 var COLAPSE_R = 0.2;
 
+var LIGHT_SPEED0 = 50;
+var GRAVITY0 = 5;
+var LIGHT_SPEED1 = 200;
+var GRAVITY1 = 12;
+
+var LIGHT_SPEED_slider=0.5;
+var GRAVITY_slider = 0.5;
+
+
 var num_objects_in_universe=0;
 // this size ia constant ana\d use to measure all bitmaps
 var GOLDEN_CELL_SIZE = 64;
@@ -221,9 +230,12 @@ World.prototype.CalculateRevs = function() {
 
 World.prototype.Calculate = function() {
     revdata.day += secperframe;
-    
+
+    LIGHT_SPEED = LIGHT_SPEED0 * (1-LIGHT_SPEED_slider) + LIGHT_SPEED1 * LIGHT_SPEED_slider;
+    GRAVITY = GRAVITY0 * (1-GRAVITY_slider) + GRAVITY1 *GRAVITY_slider;
+
+
     this.CalculateEnemies();
-    this.CalculateRevs();
     
     
     this.CalculateCoins();
@@ -293,6 +305,21 @@ World.prototype.Render = function() {
     ctx.beginPath();
     ctx.arc(0, 0, WORLD_SIZE_Y*1.5, 0, 2*Math.PI) ;
     ctx.stroke();
+    
+    if (game.b_menu)
+    {
+        ctx.strokeStyle = "rgb(180,180,0)";
+        ctx.beginPath();
+        ctx.moveTo(4,4);
+        ctx.lineTo(30,30);
+        ctx.stroke();
+
+        text.font.size = 18;
+        text.font.align = "left";
+        text.font.color ="rgb(255,255,255)";
+        text.renderWrapped(gametexts.intro, 40, 40, 200,30);
+    }
+        
 
   /*       // capital
      ctx.fillStyle = "rgb(255,0,0)";
@@ -323,35 +350,6 @@ World.prototype.Render = function() {
      text.render(capital.name,capital.x + capital.r2,capital.y-capital.r2);
 
     */
-    // coins
-    k=0;
-    var c, r, offk;
-    for (var i = 0; i < this.ar_coins.length; i++)
-    {
-        c = this.ar_coins[i];
-        
-        // disappear?
-        offk = (COIN_APPTIME + COIN_LIFETIME - COIN_OFFTIME);
-        if (c.t >= offk)
-        {
-            offk = (c.t - offk) / COIN_OFFTIME;
-            ctx.globalAlpha = 1- offk;
-        } 
-        else ctx.globalAlpha = 1;
-        
-        
-        if (c.t < COIN_APPTIME)
-            r = c.t / COIN_APPTIME;
-        else
-            r = 1;
-
-        this.DrawItemOnMap(this.cointex, c.x, c.y,  r * r + Math.sin(Math.PI*r ), 1);
-        if (c.t > COIN_APPTIME) {
-            k = (c.t - COIN_APPTIME) / COIN_LIFETIME;
-            this.DrawItemOnMap(this.cointex0, c.x, c.y, r * r, k);
-        }
-
-    }
 
 };
 

@@ -77,6 +77,8 @@ Game.prototype.InitBeforeLevel = function () {
     
     rnd.randomize(this.level_random_seed);
             
+    camera.newworldscale=1;
+    camera.move(0,0);
     gui.Init();
     this.AddUpgradeButtons();
     
@@ -181,6 +183,9 @@ Game.prototype.Render = function() {
 
 */
     this.world.Render();
+    
+    
+    
     gfx.Render();
     this.popupinfo.Render();
 
