@@ -17,17 +17,19 @@ WORLD_SIZE_R = 250;
 
 var LIGHT_SPEED = 120;
 var GRAVITY = 8;
+var MASS= 700;
 var BIG_BANG_TIME = 5;
-var MASS_VOLUME = 700;
 var COLAPSE_R = 0.2;
 
 var LIGHT_SPEED0 = 50;
 var GRAVITY0 = 5;
 var LIGHT_SPEED1 = 200;
 var GRAVITY1 = 12;
-
+var MASS0= 400;
+var MASS1= 1000;
 var LIGHT_SPEED_slider=0.5;
 var GRAVITY_slider = 0.5;
+var MASS_slider = 0.5;
 
 
 var num_objects_in_universe=0;
@@ -66,11 +68,11 @@ World.prototype.Load = function() {
 
 World.prototype.InitBeforeLevel = function() {
     this.cointimer = 0;
-    this.ar_enemies.length=0;
+    this.ar_enemies=[];
     num_objects_in_universe=0;
     revdata.day =0;
     
-    for (var i = 0; i < MASS_VOLUME; i++)
+    for (var i = 0; i < MASS; i++)
     {
         this.AddEnemyOnMap();
     }
@@ -230,10 +232,6 @@ World.prototype.CalculateRevs = function() {
 
 World.prototype.Calculate = function() {
     revdata.day += secperframe;
-
-    LIGHT_SPEED = LIGHT_SPEED0 * (1-LIGHT_SPEED_slider) + LIGHT_SPEED1 * LIGHT_SPEED_slider;
-    GRAVITY = GRAVITY0 * (1-GRAVITY_slider) + GRAVITY1 *GRAVITY_slider;
-
 
     this.CalculateEnemies();
     

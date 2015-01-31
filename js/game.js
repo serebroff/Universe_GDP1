@@ -157,6 +157,9 @@ Game.prototype.Calculate = function () {
     if (this.bMouseDown) this.mousedowntimer += tickperframe ;
     else this.mousedowntimer = 0;
 
+    LIGHT_SPEED = LIGHT_SPEED0 * (1-LIGHT_SPEED_slider) + LIGHT_SPEED1 * LIGHT_SPEED_slider;
+    GRAVITY = GRAVITY0 * (1-GRAVITY_slider) + GRAVITY1 *GRAVITY_slider;
+    MASS = MASS0 * (1-MASS_slider) + MASS1 *MASS_slider;
   
     gui.Calculate();        
     camera.Calculate();
@@ -311,13 +314,15 @@ Game.prototype.onmousemove = function(x, y) {
     
     if (this.bMouseDown )// && this.mousedowntimer > 100)
     {
-        // move camera if mouse is down
-        var MouseMoveVec = new Vec2(this.MousePos.x - x, this.MousePos.y - y);
-        this.MousePath += MouseMoveVec.length();
-        if (!this.bAiming)// && !camera.bFollowHero)
-        {
-            camera.UnfollowHero();
-            camera.move(this.MousePos.x - x, this.MousePos.y - y);
+        if (!gui.onmouseup(x, y)) {
+            // move camera if mouse is down
+            var MouseMoveVec = new Vec2(this.MousePos.x - x, this.MousePos.y - y);
+            this.MousePath += MouseMoveVec.length();
+            if (!this.bAiming)// && !camera.bFollowHero)
+            {
+                camera.UnfollowHero();
+                camera.move(this.MousePos.x - x, this.MousePos.y - y);
+            }
         }
     }
     

@@ -64,7 +64,7 @@ var levels = [
 
 var gametexts = {
     intro: "This is the Universe before Big Bang. Use mouse (drag and wheel) to navigate",
-    addenemies: "У врага пополнение!",        
+    copyright: "By Alexey Serebrov special for GameGevParty #1. 2015",        
     b_events: [0,0,0,0,0],
     events: [ 
     "Правительство заметило нездоровую активность. Бдительность войск усилена.",

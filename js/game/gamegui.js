@@ -10,17 +10,17 @@ Game.prototype.RenderStats = function () {
     text.font.color ="rgb(80,180,0)"; 
     text.render("Objects: " + num_objects_in_universe, p.x,p.y);
     p.y+=45;
-    text.render("Time:  " + Math.floor(revdata.day*10) + "M years", p.x,p.y);    
+    text.render("Time:  " + Math.floor(revdata.day*23) + "M years", p.x,p.y);    
     
     p.set(canvas.width*0.95, canvas.height*0.08);
     text.font.align = "right";
     text.font.color ="rgb(80,180,0)";   
-    text.render("Universe total mass: " + MASS_VOLUME, p.x,p.y);
+    text.render("Universe total mass: " + Math.ceil(MASS), p.x,p.y);
 
     text.font.size = 18;
     text.font.align = "left";
     text.font.color ="rgb(180,180,0)"; 
-    p.set(canvas.width*0.03+30, canvas.height*0.97-40*2.5);
+    p.set(canvas.width*0.03+30, canvas.height*0.97-40*3.8);
     text.render("Useless superpowers", p.x,p.y);
     
     text.resetFont();    
@@ -38,22 +38,24 @@ Game.prototype.AddUpgradeButtons = function () {
      var xx = canvas.width *0.03;
 
     gui.AddButton({'name':"b1",
-        "x":xx, "y":yy-buttonheight*2-buttonheight*0.2,"x1":buttonwidth,"y1":buttonheight, 
+        "x":xx, "y":yy-buttonheight*3.4,"x1":buttonwidth,"y1":buttonheight, 
+        "fontsize":18,
         "volume":LIGHT_SPEED_slider,
         "action": function(volume) { LIGHT_SPEED_slider = volume;} ,
         "txt": function()
         {
-            return "Light speed: " + Math.floor(LIGHT_SPEED_slider *100) + "%";
+            return "Light speed: " + Math.ceil(LIGHT_SPEED_slider *100) + "%";
         },
     });
     //xx+=dx;
     gui.AddButton({'name':"b2",
-        "x":xx, "y":yy-buttonheight,"x1":buttonwidth,"y1":buttonheight, 
+        "x":xx, "y":yy-buttonheight*2.2,"x1":buttonwidth,"y1":buttonheight, 
+        "fontsize":18,
         "volume":GRAVITY_slider ,
         action: function(volume) { GRAVITY_slider = volume; },
         "txt": function()
         {
-            return "Gravity: " + Math.floor(GRAVITY_slider*100)  + "%";
+            return "Gravity: " + Math.ceil(GRAVITY_slider*100)  + "%";
         },
 /*        "txt2": function()
         {
@@ -61,6 +63,20 @@ Game.prototype.AddUpgradeButtons = function () {
         },*/
     }); 
     
+    gui.AddButton({'name':"b3",
+        "x":xx, "y":yy-buttonheight,"x1":buttonwidth,"y1":buttonheight, 
+        "fontsize":18,
+        "volume":MASS_slider ,
+        action: function(volume) { MASS_slider = volume; },
+        "txt": function()
+        {
+            return "Universe mass: " + Math.ceil(MASS_slider*100)  + "%";
+        },
+/*        "txt2": function()
+        {
+            return "50%";
+        },*/
+    });     
 
     xx=canvas.width *0.97 -270;
     gui.AddButton({'name':"b4",

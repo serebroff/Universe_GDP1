@@ -48,6 +48,10 @@ var gui = {
         b.b_mouseover = false;
         b.clicktime = 0;
         b.b_popup = false;
+        if (typeof b.fontsize === 'undefined')
+            {
+                b.fontsize=24;
+            }
         //b.volume = 1;
         return b;
     },
@@ -95,21 +99,25 @@ var gui = {
     RenderButton: function(b)
     {
         // Button color
+        ctx.lineWidth = 3
+        ctx.strokeStyle = "rgb(0,155,0)";
         if (b.b_mouseover) {
             ctx.fillStyle = "rgb(130,255,0)";
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = "rgb(150,155,0)";
+            ctx.lineWidth = 4;
         }
         else
             ctx.fillStyle = "rgb(100,255,0)";
         
         
+        text.font.size = b.fontsize;
         var ds = 0, ks;
         if (b.clicktime > 0) {
             var k = b.clicktime / this.CLICKTIME;
             ks = Math.sin(Math.PI * k);
             ctx.fillStyle = "rgb(100,255," + Math.floor(200 * ks) + ")";
             ds = Math.floor(5 * ks);
-            text.font.size = 24 + 2 * ks;
+            text.font.size = b.fontsize + 2 * ks;
         }
 
         text.font.b_stroke = false;
@@ -124,6 +132,7 @@ var gui = {
         
         ctx.lineWidth = 1;
         var yy= text.font.size * 1.2;
+        if (!game.b_menu && b.name == 'b3') text.font.color="grey";
        if (typeof b.txt2 === 'undefined') yy=b.y1/2 + text.font.size * 0.4;
         text.render(typeof b.txt == 'string' ? b.txt : b.txt(), b.x + b.x1 / 2, b.y + yy );
         if (typeof b.txt2 !== 'undefined')
@@ -166,13 +175,18 @@ var gui = {
         for (var i = 0; i < this.ar_buttons.length; i++)
         {
             var b= this.ar_buttons[i];
+            // затычка от сладинга массы вслеленной во время игры
+            if (!game.b_menu && b.name == 'b3') continue;
             if (x > b.x && x < (b.x+b.x1) && y > b.y & y < (b.y+b.y1)) {
                 
-                if (typeof b.volume !== 'undefined')
-                {
-                    b.volume = (x - b.x) / b.x1;
-                    b.action(b.volume);
-                } else b.clicktime = this.CLICKTIME;
+                    if (typeof b.volume !== 'undefined')
+                    {
+
+                        b.volume = (x - b.x) / b.x1;
+                        b.action(b.volume);
+
+                    } else
+                        b.clicktime = this.CLICKTIME;
                 return true;
             }
         }
