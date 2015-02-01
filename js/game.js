@@ -96,7 +96,6 @@ Game.prototype.InitBeforeLevel = function () {
 */
     
     this.popupinfo.InitBeforeLevel();
-
     this.world.InitBeforeLevel();
     camera.setpos(0,0);
     

@@ -1,6 +1,12 @@
 
 Game.prototype.RenderStats = function () {
     var p= new Vec2();
+    
+    var buttonwidth = 250, buttonheight = 40;
+    var yy = canvas.height * 0.97;
+    var dx = canvas.width * 0.03 + buttonwidth;
+    var xx = canvas.width * 0.03;
+
 
     p.set(canvas.width*0.05, canvas.height*0.08);
     text.font.size = 24;
@@ -23,6 +29,8 @@ Game.prototype.RenderStats = function () {
     p.set(canvas.width*0.03+30, canvas.height*0.97-40*3.8);
     text.render("Useless superpowers", p.x,p.y);
     
+    p.set(canvas.width*0.95, canvas.height*0.08);
+    
     text.resetFont();    
 }
 
@@ -32,11 +40,14 @@ Game.prototype.CalculateEvents = function () {
 }
 
 Game.prototype.AddUpgradeButtons = function () {
-     var buttonwidth =250, buttonheight = 40, numbuttons= 4;
+     var buttonwidth =250, buttonheight = 40;
      var yy= canvas.height*0.97;
      var dx= canvas.width *0.03 +buttonwidth;
      var xx = canvas.width *0.03;
-
+     
+    var TRUE_LIGHT_SPEED=299792.458;
+    //LIGHT_SPEED0/LIGHT_SPEED1 + LIGHT_SPEED_slider/0.5 +1
+     
     gui.AddButton({'name':"b1",
         "x":xx, "y":yy-buttonheight*3.4,"x1":buttonwidth,"y1":buttonheight, 
         "fontsize":18,
@@ -44,7 +55,8 @@ Game.prototype.AddUpgradeButtons = function () {
         "action": function(volume) { LIGHT_SPEED_slider = volume;} ,
         "txt": function()
         {
-            return "Light speed: " + Math.ceil(LIGHT_SPEED_slider *100) + "%";
+            //LIGHT_SPEED0/LIGHT_SPEED1 +1
+            return "Light speed: " + Math.ceil((400/700 +LIGHT_SPEED_slider) *299792.458 ) + " km/s";
         },
     });
     //xx+=dx;
@@ -86,7 +98,10 @@ Game.prototype.AddUpgradeButtons = function () {
             if (game.b_menu) { 
                 game.InitBeforeLevel();
                 game.DamageTimer=100;
-            } else game.HitTimer=100;
+            } else {
+                game.world.InitBeforeLevel();
+                game.HitTimer=100;
+            }
         },
         "txt": function()
         {

@@ -19,7 +19,7 @@ var LIGHT_SPEED = 120;
 var GRAVITY = 8;
 var MASS= 700;
 var BIG_BANG_TIME = 5;
-var COLAPSE_R = 0.2;
+var COLAPSE_R = 0.4;
 
 var LIGHT_SPEED0 = 50;
 var GRAVITY0 = 5;
@@ -67,7 +67,6 @@ World.prototype.Load = function() {
 };
 
 World.prototype.InitBeforeLevel = function() {
-    this.cointimer = 0;
     this.ar_enemies=[];
     num_objects_in_universe=0;
     revdata.day =0;
@@ -76,12 +75,7 @@ World.prototype.InitBeforeLevel = function() {
     {
         this.AddEnemyOnMap();
     }
-/*    for (var i = 0; i < revdata.revs; i++)
-    {
-        this.AddRevOnMap();
-    }  */
-    this.rev_repro_timer=0;
-    this.b_attack = false;
+
 }
 
 World.prototype.AddEnemyOnMap = function(pos) {
