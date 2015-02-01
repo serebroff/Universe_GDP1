@@ -22,11 +22,14 @@ var BIG_BANG_TIME = 5;
 var COLAPSE_R = 0.4;
 
 var LIGHT_SPEED0 = 50;
-var GRAVITY0 = 5;
 var LIGHT_SPEED1 = 200;
+
+var GRAVITY0 = 5;
 var GRAVITY1 = 12;
+
 var MASS0= 400;
 var MASS1= 1000;
+
 var LIGHT_SPEED_slider=0.5;
 var GRAVITY_slider = 0.5;
 var MASS_slider = 0.5;
@@ -172,7 +175,7 @@ World.prototype.CalculateEnemies = function() {
                     }
 
                     e.m += e2.m;
-                    e.r = Math.pow(e.m, 1 / 3);//*0.1;
+                    e.r = 1 + Math.pow(e.m, 1 / 3);//*0.1;
 
                     e2.b_dead = true;
                 }
@@ -219,6 +222,18 @@ World.prototype.CalculateRevs = function() {
 World.prototype.Calculate = function() {
     revdata.day += secperframe;
 
+    var e=this.ar_enemies[0];
+    
+    if (game.bRightMouseDown)
+    {
+        e.b_dead = false;
+        e.pos.x = Math.floor(game.MousePos.x / world_scale -
+                (camera.pos.x * CELL_SIZE + canvas.width / 2 / world_scale));
+        e.pos.y = Math.floor(game.MousePos.y / world_scale -
+                (camera.pos.y * CELL_SIZE + canvas.height / 2 / world_scale));
+        e.m=MASS;
+    } else e.b_dead=true;
+    
     this.CalculateEnemies();
     
     
@@ -271,6 +286,18 @@ World.prototype.Render = function() {
         var e = this.ar_enemies[i];
         if (e.b_dead) continue;
         var s = e.r;
+        var c="rgb(255,255,255)";
+        switch(Math.floor(s-1))
+        {
+            case 1: c="rgb(244,255,167)"; break;
+            case 2: c="rgb(255,237,31)"; break;
+            case 3: c="rgb(255,132,0)"; break;
+            case 4: c="rgb(255,36,0)"; break;
+            case 5: c="rgb(255,96,227)"; break;
+            case 6: c="rgb(114,99,255)"; break;
+            case 7: c="rgb(55,198,255)"; break;
+        }
+        ctx.fillStyle = c;
         ctx.beginPath();
         ctx.arc(e.pos.x, e.pos.y, s, 0, 2*Math.PI) ;
         ctx.fill();
@@ -279,16 +306,12 @@ World.prototype.Render = function() {
     }
     // limit of universe
     ctx.strokeStyle = "rgb(0,160,0)";
-    ctx.beginPath();
-    ctx.arc(0, 0, WORLD_SIZE_Y/2, 0, 2*Math.PI) ;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(0, 0, WORLD_SIZE_Y, 0, 2*Math.PI) ;
-    ctx.stroke();
-    
-    ctx.beginPath();
-    ctx.arc(0, 0, WORLD_SIZE_Y*1.5, 0, 2*Math.PI) ;
-    ctx.stroke();
+    for (var i = 0; i < 6; i++)
+    {
+        ctx.beginPath();
+        ctx.arc(0, 0, (WORLD_SIZE_Y / 2 )* (Math.pow(i,1.4) + 1), 0, 2 * Math.PI);
+        ctx.stroke();
+    }
     
     if (game.b_menu)
     {

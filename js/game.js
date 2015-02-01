@@ -6,6 +6,7 @@ var game;
 
 Game = function () {
     this.bMouseDown =false;
+    this.bRightMouseDown =false;
     this.MousePath =0;
     this.b_firstclick = true;
     this.mousedowntimer =0;
@@ -313,7 +314,7 @@ Game.prototype.onmousemove = function(x, y) {
     
     if (this.bMouseDown )// && this.mousedowntimer > 100)
     {
-        if (!gui.onmouseup(x, y)) {
+        if (!gui.onmousemove(x, y)) {
             // move camera if mouse is down
             var MouseMoveVec = new Vec2(this.MousePos.x - x, this.MousePos.y - y);
             this.MousePath += MouseMoveVec.length();
@@ -328,7 +329,7 @@ Game.prototype.onmousemove = function(x, y) {
     this.MousePos.x = x;
     this.MousePos.y = y;
     
-    gui.onmousemove(x,y);
+    //gui.onmousemove(x,y);
 };
 
 Game.prototype.onmouseup = function (x,y) {
@@ -371,9 +372,11 @@ Game.prototype.onmouseup = function (x,y) {
     this.MousePath =0;
 };
 
-
+Game.prototype.onrightmousedown= function(x, y) {
+    this.bRightMouseDown =true;
+}
 Game.prototype.onrightmouseup = function(x, y) {
-
+    this.bRightMouseDown =false;
     this.units.SelectNextUnit();
 
 }

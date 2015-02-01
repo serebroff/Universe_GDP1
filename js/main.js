@@ -177,7 +177,8 @@ window.onload = function () {
     {   
         e.preventDefault();
         var p = getCursorPosition(e);
-        if (!isRightMB(e)) current_interface.onmousedown(p.x, p.y);    
+        if (isRightMB(e)) current_interface.onrightmousedown(p.x, p.y);  
+        else current_interface.onmousedown(p.x, p.y);  
     };
     canvas.onmousemove = function (e) 
     {          

@@ -46,6 +46,8 @@ Game.prototype.AddUpgradeButtons = function () {
      var xx = canvas.width *0.03;
      
     var TRUE_LIGHT_SPEED=299792.458;
+    var TRUE_MASS=1.1 ; //10^53 kg
+    var TRUE_GRAVITY= 6.67384; //"e-11 m^3 kg^-1 s^-2";
     //LIGHT_SPEED0/LIGHT_SPEED1 + LIGHT_SPEED_slider/0.5 +1
      
     gui.AddButton({'name':"b1",
@@ -56,7 +58,7 @@ Game.prototype.AddUpgradeButtons = function () {
         "txt": function()
         {
             //LIGHT_SPEED0/LIGHT_SPEED1 +1
-            return "Light speed: " + Math.ceil((400/700 +LIGHT_SPEED_slider) *299792.458 ) + " km/s";
+            return "Light speed: " +  Math.ceil(LIGHT_SPEED_slider*100) + "%";
         },
     });
     //xx+=dx;

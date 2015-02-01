@@ -155,6 +155,21 @@ var gui = {
             }
         }
     },
+    onmousemove: function(x,y) {
+        for (var i = 0; i < this.ar_buttons.length; i++)
+        {
+            var b = this.ar_buttons[i];
+            if (typeof b.volume === 'undefined') continue;
+            // затычка от сладинга массы вслеленной во время игры
+            if (!game.b_menu && b.name == 'b3')
+                continue;
+            if (x > b.x && x < (b.x + b.x1) && y > b.y & y < (b.y + b.y1)) {
+                b.volume = (x - b.x) / b.x1;
+                b.action(b.volume);
+                return true;
+            }
+        }
+    },
     onmouseup: function(x,y) {
        // if pop up ia active check only last popup buttons
         if (this.ar_popups.length > 0)
@@ -175,18 +190,15 @@ var gui = {
         for (var i = 0; i < this.ar_buttons.length; i++)
         {
             var b= this.ar_buttons[i];
-            // затычка от сладинга массы вслеленной во время игры
-            if (!game.b_menu && b.name == 'b3') continue;
             if (x > b.x && x < (b.x+b.x1) && y > b.y & y < (b.y+b.y1)) {
-                
-                    if (typeof b.volume !== 'undefined')
-                    {
-
-                        b.volume = (x - b.x) / b.x1;
-                        b.action(b.volume);
-
-                    } else
-                        b.clicktime = this.CLICKTIME;
+                if (typeof b.volume === 'undefined') b.clicktime = this.CLICKTIME;
+                {
+                    if (!game.b_menu && b.name == 'b3')  continue;
+                    if (typeof b.volume === 'undefined') continue;
+                    b.volume = (x - b.x) / b.x1;
+                    b.action(b.volume);
+                    return true;
+                }
                 return true;
             }
         }
@@ -198,6 +210,13 @@ var gui = {
             b= this.ar_buttons[i];
             if (x > b.x && x < (b.x+b.x1) && y > b.y & y < (b.y+b.y1)) {
                 b.b_mouseover = true;
+                if (game.bMouseDown) {
+                    if (!game.b_menu && b.name == 'b3')  continue;
+                    if (typeof b.volume === 'undefined') continue;
+                    b.volume = (x - b.x) / b.x1;
+                    b.action(b.volume);
+                    return true;
+                }
             }
             else b.b_mouseover = false;
         }        
