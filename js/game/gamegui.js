@@ -2,7 +2,7 @@
 Game.prototype.RenderStats = function () {
     var p= new Vec2();
     
-    var buttonwidth = 250, buttonheight = 40;
+    var buttonwidth = 300, buttonheight = 40;
     var yy = canvas.height * 0.97;
     var dx = canvas.width * 0.03 + buttonwidth;
     var xx = canvas.width * 0.03;
@@ -15,13 +15,23 @@ Game.prototype.RenderStats = function () {
       
     text.font.color ="rgb(80,180,0)"; 
     text.render("Objects: " + num_objects_in_universe, p.x,p.y);
-    p.y+=45;
-    text.render("Time:  " + Math.floor(revdata.day*23) + "M years", p.x,p.y);    
+    p.y+=40;
+    text.render("Time:  " + Math.floor(revdata.day*23) + "M years", p.x,p.y);  
+    p.y+=40;
+    text.render("Universe size:  " + Math.floor(Math.sqrt(universe_size)*14) + "M parsec", p.x,p.y);  
+
+    p.y+=40;
+    text.render("Stable state time:  " + Math.floor(stable_state_time*23) + "M years", p.x,p.y);      
+
+    
     
     p.set(canvas.width*0.95, canvas.height*0.08);
     text.font.align = "right";
     text.font.color ="rgb(80,180,0)";   
-    text.render("Universe total mass: " + Math.ceil(MASS), p.x,p.y);
+    text.render("FPS: " + fps.str_fps, p.x,p.y);
+    p.y+=40;
+    text.render("Zoom: " + Math.floor(world_scale*100) + '%', p.x,p.y);
+    //text.render("Universe total mass: " + Math.ceil(MASS), p.x,p.y);
 
     text.font.size = 18;
     text.font.align = "left";
@@ -40,7 +50,7 @@ Game.prototype.CalculateEvents = function () {
 }
 
 Game.prototype.AddUpgradeButtons = function () {
-     var buttonwidth =250, buttonheight = 40;
+     var buttonwidth =300, buttonheight = 40;
      var yy= canvas.height*0.97;
      var dx= canvas.width *0.03 +buttonwidth;
      var xx = canvas.width *0.03;
@@ -69,7 +79,8 @@ Game.prototype.AddUpgradeButtons = function () {
         action: function(volume) { GRAVITY_slider = volume; },
         "txt": function()
         {
-            return "Gravity: " + Math.ceil(GRAVITY_slider*100)  + "%";
+            //var k=((GRAVITY1-GRAVITY0)*(GRAVITY_slider-0.5))/((GRAVITY0+GRAVITY1)/2);
+            return "-               Gravity: " + Math.ceil(GRAVITY_slider*100)  + "%               +";
         },
 /*        "txt2": function()
         {
@@ -84,7 +95,7 @@ Game.prototype.AddUpgradeButtons = function () {
         action: function(volume) { MASS_slider = volume; },
         "txt": function()
         {
-            return "Universe mass: " + Math.ceil(MASS_slider*100)  + "%";
+            return "-            Universe mass: " + Math.ceil(MASS_slider*100)  + "%            +";
         },
 /*        "txt2": function()
         {

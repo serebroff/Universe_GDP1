@@ -36,6 +36,10 @@ var MASS_slider = 0.5;
 
 
 var num_objects_in_universe=0;
+var universe_size=0;
+var stable_state_time=0;
+var big_bang_time = 5;
+
 // this size ia constant ana\d use to measure all bitmaps
 var GOLDEN_CELL_SIZE = 64;
 
@@ -72,9 +76,13 @@ World.prototype.Load = function() {
 World.prototype.InitBeforeLevel = function() {
     this.ar_enemies=[];
     num_objects_in_universe=0;
-    revdata.day =0;
+    universe_size=0;
+    stable_state_time=0;
     
-    for (var i = 0; i < MASS; i++)
+    revdata.day =0;
+    big_bang_time = BIG_BANG_TIME;
+    
+    for (var i = 0; i < MASS/2; i++)
     {
         this.AddEnemyOnMap();
     }
@@ -82,26 +90,31 @@ World.prototype.InitBeforeLevel = function() {
 }
 
 World.prototype.AddEnemyOnMap = function(pos) {
-    var pl
-    if (typeof pos !== 'undefined') p = pos;
-    else {
-        p = new Vec2(0,0);
-        p.set(0,WORLD_SIZE_Y*Math.random()/2);
-        p.rotate(2*Math.PI*Math.random());
-    }
 
-    var rnd=Math.random(); rnd=Math.pow(rnd,1/2);
+    var rnd=Math.random(); 
+    rnd=Math.pow(rnd,1/2);
     var speed= new Vec2(0,LIGHT_SPEED*rnd);
     //speed.y*=speed.y;
     speed.rotate(2*Math.PI*Math.random());
     
     this.ar_enemies.push({"pos": new Vec2(0,0),//p,
         "speed": speed, //new Vec2(0,0),
-        "t":BIG_BANG_TIME,
+        //"t":BIG_BANG_TIME,
         "r": 1,
         "m":1,
         "b_dead":false,
         "a": new Vec2(0,0)});
+    
+    //speed.negate();
+    
+    this.ar_enemies.push({"pos": new Vec2(0,0),//p,
+        "speed": speed.negate(1), //new Vec2(0,0),
+        //"t":BIG_BANG_TIME,
+        "r": 1,
+        "m":1,
+        "b_dead":false,
+        "a": new Vec2(0,0)});
+    //*/
 }
 
 World.prototype.AddInitialRevs = function(x,y) {
@@ -139,68 +152,53 @@ World.prototype.CalculateCoins = function() {
 World.prototype.CalculateEnemies = function() {
     var cappos = new Vec2(capital.x, capital.y);
     
-    num_objects_in_universe=0;    
+    num_objects_in_universe=0;   
+    universe_size =0;
+    stable_state_time+=secperframe;
+    big_bang_time -= secperframe;
+
+    // forces between objects and movement
     for (var i = 0; i < this.ar_enemies.length; i++)
     {
         var e = this.ar_enemies[i];
-        
-        if (e.b_dead) continue;
+
+        if (e.b_dead)   continue;
         num_objects_in_universe++;
         
-        e.t -= secperframe;
-        
-        // collision with other enemies
-        if (e.t < 0)
+        var R = e.pos.lengthSquared();
+        if (universe_size < R)
         {
-            for (var j = i + 1; j < this.ar_enemies.length; j++)
-            {
-                var e2 = this.ar_enemies[j];
-                if (e2.b_dead) continue;
+            universe_size = R;
+        }
 
-                var dir = e.pos.subtract(e2.pos, 1);
-                var r = dir.lengthSquared();
+        if (big_bang_time < 0)
+        for (var j = i + 1; j < this.ar_enemies.length; j++)
+        {
+            var e2 = this.ar_enemies[j];
+            if (e2.b_dead)
+                continue;
 
-                // collision and collapse of one partilce
-                var r2 = e.r + e2.r;
-                r2 *= r2 * COLAPSE_R;
-                if (r < r2)
-                {
-                    e2.speed.multiply(e2.m);
-                    e.speed.multiply(e.m);
-                    e.speed.add(e2.speed);
-                    e.speed.divide(e.m + e2.m);
 
-                    if (e.m < e2.m) {
-                        e.pos = e2.pos;
-                    }
 
-                    e.m += e2.m;
-                    e.r = 1 + Math.pow(e.m, 1 / 3);//*0.1;
+            var dir = e.pos.subtract(e2.pos, 1);
+            var r = dir.lengthSquared();
 
-                    e2.b_dead = true;
-                }
-                else
-                {
-                    // gravity force and acceleration
-                    dir.multiply(GRAVITY/r);
-                    e.a.subtract(dir.multiply(e2.m, 1));
-                    e2.a.add(dir.multiply(e.m, 1));
 
-                }
-            }
-        }               
+            // gravity force and acceleration
+            dir.multiply(GRAVITY / r);
+            e.a.subtract(dir.multiply(e2.m, 1));
+            e2.a.add(dir.multiply(e.m, 1));
 
+        }
+     
         
-        // calculate speed and new pos
+/*        // calculate speed and new pos
         e.speed.add(e.a.multiply(2*secperframe,1));
         e.a.zero();
         var sl=e.speed.length();
         if (sl>=LIGHT_SPEED) {
             e.speed.multiply(LIGHT_SPEED/sl);
         }
-        
- 
-    //    e.speed.normalize();
         e.pos.add(e.speed.multiply(secperframe,1));
         
 /*        
@@ -210,7 +208,70 @@ World.prototype.CalculateEnemies = function() {
         else if ( e.pos.y> WORLD_SIZE_Y / 2) { e.speed.y*=-1; e.pos.y= WORLD_SIZE_Y / 2 -1;}
        // */
     }
+    
+    // movement
+    for (var i = 0; i < this.ar_enemies.length; i++)
+    {
+        var e = this.ar_enemies[i];
+        if (e.b_dead)   continue;
+               // calculate speed and new pos
+        e.speed.add(e.a.multiply(2*secperframe,1));
+        e.a.zero();
+        var sl=e.speed.length();
+        if (sl>=LIGHT_SPEED) {
+            e.speed.multiply(LIGHT_SPEED/sl);
+        }
+        e.pos.add(e.speed.multiply(secperframe,1));
+    }
+    
+    if (big_bang_time > 0) return;
+
+    // collision with other enemies
+    for (var i = 0; i < this.ar_enemies.length; i++)
+    {
+        var e = this.ar_enemies[i];
         
+        if (e.b_dead) continue;
+
+
+        for (var j = i + 1; j < this.ar_enemies.length; j++)
+        {
+            var e2 = this.ar_enemies[j];
+            if (e2.b_dead)
+                continue;
+
+            var dir = e.pos.subtract(e2.pos, 1);
+            var r = dir.lengthSquared();
+
+
+            // collision and collapse of one partilce
+            var r2 = e.r + e2.r;
+            r2 *= r2 * COLAPSE_R;
+            if (r < r2)
+            {
+                e.speed.multiply(e.m);
+                e2.speed.multiply(e2.m);
+                e.speed.add(e2.speed);
+                e.speed.divide(e.m + e2.m);
+
+                e.pos.multiply(e.m);
+                e2.pos.multiply(e2.m);
+                e.pos.add(e2.pos);
+                e.pos.divide(e.m + e2.m);
+
+                e.m += e2.m;
+                
+                e.r = 1 + Math.pow(e.m, 1 / 3);//*0.1;
+                e2.b_dead = true;
+                
+                stable_state_time = 0;
+            }
+ 
+        }
+
+    }
+    
+    
 }
 
 
@@ -221,7 +282,7 @@ World.prototype.CalculateRevs = function() {
 
 World.prototype.Calculate = function() {
     revdata.day += secperframe;
-
+/*
     var e=this.ar_enemies[0];
     
     if (game.bRightMouseDown)
@@ -233,7 +294,7 @@ World.prototype.Calculate = function() {
                 (camera.pos.y * CELL_SIZE + canvas.height / 2 / world_scale));
         e.m=MASS;
     } else e.b_dead=true;
-    
+    */
     this.CalculateEnemies();
     
     
@@ -286,8 +347,11 @@ World.prototype.Render = function() {
         var e = this.ar_enemies[i];
         if (e.b_dead) continue;
         var s = e.r;
-        var c="rgb(255,255,255)";
-        switch(Math.floor(s-1))
+        
+        var b= Math.floor(255*(1-e.r/10));
+        if (b<0) b=0;
+        var c="rgb(255,255,"+b+")";
+/*        switch(Math.floor(s-1))
         {
             case 1: c="rgb(244,255,167)"; break;
             case 2: c="rgb(255,237,31)"; break;
@@ -296,7 +360,7 @@ World.prototype.Render = function() {
             case 5: c="rgb(255,96,227)"; break;
             case 6: c="rgb(114,99,255)"; break;
             case 7: c="rgb(55,198,255)"; break;
-        }
+        }*/
         ctx.fillStyle = c;
         ctx.beginPath();
         ctx.arc(e.pos.x, e.pos.y, s, 0, 2*Math.PI) ;

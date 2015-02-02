@@ -305,16 +305,16 @@ Game.prototype.onmousedown = function (x,y) {
     // get pos from event e
     this.MousePos.x = x;
     this.MousePos.y = y;
-    
+    //gui.onmousemove(x, y);
+    if (gui.onmouseup(x,y)) return;
     
     
 };
 
 Game.prototype.onmousemove = function(x, y) {
-    
-    if (this.bMouseDown )// && this.mousedowntimer > 100)
-    {
-        if (!gui.onmousemove(x, y)) {
+    if (!gui.onmousemove(x, y)) {
+        if (this.bMouseDown)// && this.mousedowntimer > 100)
+        {
             // move camera if mouse is down
             var MouseMoveVec = new Vec2(this.MousePos.x - x, this.MousePos.y - y);
             this.MousePath += MouseMoveVec.length();
@@ -323,13 +323,14 @@ Game.prototype.onmousemove = function(x, y) {
                 camera.UnfollowHero();
                 camera.move(this.MousePos.x - x, this.MousePos.y - y);
             }
+            //}
         }
     }
     
     this.MousePos.x = x;
     this.MousePos.y = y;
     
-    //gui.onmousemove(x,y);
+//    gui.onmousemove(x,y);
 };
 
 Game.prototype.onmouseup = function (x,y) {
@@ -338,7 +339,7 @@ Game.prototype.onmouseup = function (x,y) {
     this.MousePos.x = x;
     this.MousePos.y = y;
     
-    if (gui.onmouseup(x,y)) return;
+    //if (gui.onmouseup(x,y)) return;
     
 
 
@@ -373,11 +374,13 @@ Game.prototype.onmouseup = function (x,y) {
 };
 
 Game.prototype.onrightmousedown= function(x, y) {
+    //this.bMouseDown = true;
     this.bRightMouseDown =true;
 }
 Game.prototype.onrightmouseup = function(x, y) {
+    //this.bMouseDown = false;
     this.bRightMouseDown =false;
-    this.units.SelectNextUnit();
+    //this.units.SelectNextUnit();
 
 }
 

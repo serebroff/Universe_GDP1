@@ -155,7 +155,7 @@ var gui = {
             }
         }
     },
-    onmousemove: function(x,y) {
+/*    onmousemove: function(x,y) {
         for (var i = 0; i < this.ar_buttons.length; i++)
         {
             var b = this.ar_buttons[i];
@@ -169,7 +169,7 @@ var gui = {
                 return true;
             }
         }
-    },
+    },*/
     onmouseup: function(x,y) {
        // if pop up ia active check only last popup buttons
         if (this.ar_popups.length > 0)
@@ -211,14 +211,17 @@ var gui = {
             if (x > b.x && x < (b.x+b.x1) && y > b.y & y < (b.y+b.y1)) {
                 b.b_mouseover = true;
                 if (game.bMouseDown) {
-                    if (!game.b_menu && b.name == 'b3')  continue;
-                    if (typeof b.volume === 'undefined') continue;
-                    b.volume = (x - b.x) / b.x1;
-                    b.action(b.volume);
-                    return true;
+                    if (!game.b_menu && b.name == 'b3')  return true;
+                    if (typeof b.volume !== 'undefined') {
+                        
+                        b.volume = (x - b.x) / b.x1;
+                        b.action(b.volume);
+                    }
                 }
+                return true;
             }
             else b.b_mouseover = false;
+            
         }        
     }
 }
