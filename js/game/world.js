@@ -19,26 +19,29 @@ var LIGHT_SPEED = 120;
 var GRAVITY = 8;
 var MASS= 700;
 var BIG_BANG_TIME = 5;
-var COLAPSE_R = 0.4;
+var COLAPSE_R = 0.3;
 
-var LIGHT_SPEED0 = 50;
-var LIGHT_SPEED1 = 200;
+var LIGHT_SPEED0 = 40;
+var LIGHT_SPEED1 = 220;
 
 var GRAVITY0 = 5;
-var GRAVITY1 = 12;
+var GRAVITY1 = 18;
 
-var MASS0= 400;
+var MASS0= 200;
 var MASS1= 1000;
 
-var LIGHT_SPEED_slider=0.5;
-var GRAVITY_slider = 0.5;
-var MASS_slider = 0.5;
+var LIGHT_SPEED_slider=0.3;
+var GRAVITY_slider = 0.3;
+var MASS_slider = 0.3;
 
 
 var num_objects_in_universe=0;
 var universe_size=0;
 var stable_state_time=0;
 var big_bang_time = 5;
+
+
+var num_of_runs=0;
 
 // this size ia constant ana\d use to measure all bitmaps
 var GOLDEN_CELL_SIZE = 64;
@@ -64,7 +67,7 @@ World = function() {
 World.prototype.Load = function() {
 
 
-
+    
     this.maptex = texturehost.Load('res/map.png');
     this.cointex = texturehost.Load('res/coin.png');
     this.cointex0 = texturehost.Load('res/coin0.png');
@@ -86,6 +89,8 @@ World.prototype.InitBeforeLevel = function() {
     {
         this.AddEnemyOnMap();
     }
+
+    
 
 }
 
@@ -296,7 +301,6 @@ World.prototype.Calculate = function() {
     } else e.b_dead=true;
     */
     this.CalculateEnemies();
-    
     
     this.CalculateCoins();
     if (revdata.revs == 0 && this.ar_revs.length == 0)

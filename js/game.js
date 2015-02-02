@@ -100,6 +100,14 @@ Game.prototype.InitBeforeLevel = function () {
     this.world.InitBeforeLevel();
     camera.setpos(0,0);
     
+    if (num_of_runs > 0)
+    {
+        var n = (num_of_runs - 1) % 4;
+        game.popupinfo.AddTitle(gametexts.slogan[n]);
+    }
+    num_of_runs++;
+
+    
 }
 
 Game.prototype.PRupgrage = function () {

@@ -8,7 +8,7 @@
 PopupInfo = function () {
     // constants
     this.INFO_FLIGHT_TIME = 1000;
-    this.TITLE_FLIGHT_TIME = 1000;
+    this.TITLE_FLIGHT_TIME = 4000;
 };
 
 
@@ -86,16 +86,18 @@ PopupInfo.prototype.RenderOverScreen = function ()
 {
     var i, a, k;
     
-    var fontsize = Math.floor(canvas.width / 24);
+    var fontsize = Math.floor(10+canvas.width / 44);
+    text.font.color="rgb(200,200,30)";
+    text.font.b_stroke=false;
     // titles
     for (i = 0; i < this.ar_title.length; i++) {
-        k = 1 - this.ar_title[i].time / this.INFO_FLIGHT_TIME;
+        k = 1 - this.ar_title[i].time / this.TITLE_FLIGHT_TIME;
         a = 2*Math.sin(Math.PI * k);
         if (a>1) a=1;
         ctx.globalAlpha = a;
         
-        text.font.size = Math.floor(fontsize *a +fontsize);
-        text.render(this.ar_title[i].string, canvas.width/2, canvas.height/2);
+        text.font.size = fontsize;//Math.floor(fontsize *a +fontsize);
+        text.render(this.ar_title[i].string, canvas.width/2, a*canvas.height*0.1);
 
     }
     ctx.globalAlpha = 1;

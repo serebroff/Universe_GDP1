@@ -41,7 +41,13 @@ var gui = {
             p.buttons[i].buttonindex = this.ar_buttons.length -1;
          }
     },
-
+    GetButtonByName: function(name) {
+        for (var i=0; i<this.ar_buttons.length; i++)
+            {
+                var b= this.ar_buttons[i];
+                if (b.name==name) return b;
+            }
+    },       
     AddButton : function(params) { 
         this.ar_buttons.push(params); 
         var b= this.ar_buttons[this.ar_buttons.length -1];
@@ -140,6 +146,23 @@ var gui = {
             text.render(typeof b.txt2 == 'string' ? b.txt2 : b.txt2(), b.x + b.x1 / 2, b.y + text.font.size * 2.4);
         }
 
+        if (typeof b.tip !== 'undefined' && b.b_mouseover)
+        {
+            var x, y;
+            x = b.x + b.x1;
+            y = b.y + b.y1 / 2;
+
+            ctx.strokeStyle = "rgb(180,180,0)";
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 90, y - 90);
+            ctx.stroke();
+
+            text.font.size = 18;
+            text.font.align = "left";
+            text.font.color = "rgb(255,255,255)";
+            text.renderWrapped(b.tip, x + 110, y - 110, 200, 30);
+        }
         text.resetFont();
     },
     Render : function() {
@@ -205,6 +228,11 @@ var gui = {
     },
     onmousemove: function(x,y) {
         var i, b;
+        for (i = 0; i < this.ar_buttons.length; i++)
+        {
+           this.ar_buttons[i].b_mouseover = false;
+        }
+        
         for (i = 0; i < this.ar_buttons.length; i++)
         {
             b= this.ar_buttons[i];

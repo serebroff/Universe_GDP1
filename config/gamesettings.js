@@ -63,15 +63,20 @@ var levels = [
 ];
 
 var gametexts = {
-    intro: "This is the Universe before Big Bang. Use mouse (drag and wheel) to navigate",
+    intro: "This is the Universe before Big Bang",// Use mouse (drag and wheel) to navigate",
     copyright: "By Alexey Serebrov special for GameGevParty #1. 2015",        
-    b_events: [0,0,0,0,0],
-    events: [ 
-    "Правительство заметило нездоровую активность. Бдительность войск усилена.",
-    "Правительство провело призыв новых солдат",
-    "Мировая общественность обеспокоена количеством трупов. Правительство обещает подавить восстание",
-    "Правительство перевооружает армию более современным оружием",
-    "Правительство призвало почти всех военнообязаных граждан. Весь бюджет страны потрачен на оснащение армии",
-    ]
+    mouse: "Use mouse left button to navigate and wheel to zoom",
+    slogan:[
+    "This game has no goal",
+    "Beaty of nature is the only reason",
+    "Are you the Creator, arn't you?",
+    "Nice try!",
+    ],
+    h:
+    [
+        "Speed limit of an object in the Universe",
+         "Gravitational force that attracts all objects to each other",
+         "Mass of Universe. Big mass can slow down FPS. Can be set up only before Big Bang",
+    ],
             
 };

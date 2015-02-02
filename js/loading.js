@@ -74,6 +74,7 @@ Loading.prototype.Render = function () {
     text.font.strokecolor = "rgb(0,100,0)";
     text.render(str, canvas.width / 2 , canvas.height *(1- 1.2*ph)/2 );
 
+    text.font.b_stroke = false;
     text.font.align="right";
     text.font.size=24;
     text.renderWrapped(gametexts.copyright, canvas.width *0.95 , canvas.height *0.8,300,30 );
