@@ -36,7 +36,7 @@ Game.prototype.RenderStats = function () {
     text.font.size = 18;
     text.font.align = "left";
     text.font.color ="rgb(180,180,0)"; 
-    p.set(canvas.width*0.03+30, canvas.height*0.97-40*3.8);
+    p.set(canvas.width*0.03+60, canvas.height*0.97-40*3.8);
     text.render("Useless superpowers", p.x,p.y);
     
     
@@ -44,9 +44,9 @@ Game.prototype.RenderStats = function () {
     {   
         text.font.size = 30;
         text.font.align = "center";
-        text.font.color ="rgb(200,200,55)";
-      var h= text.getWrappedHeight(gametexts.mouse, canvas.width*0.3,40);
-        text.renderWrapped(gametexts.mouse, canvas.width/2,canvas.height*0.95-h, canvas.width*0.3,40);
+        text.font.color ="rgb(180,180,0)";
+        var h= text.getWrappedHeight(gametexts.mouse, canvas.width*0.3,40);
+        text.renderWrapped(gametexts.mouse, canvas.width/2,canvas.height*0.98-h, canvas.width*0.3,40);
     }
         
     
@@ -123,9 +123,11 @@ Game.prototype.AddUpgradeButtons = function () {
         action: function() {
             game.b_menu = !game.b_menu;
             if (game.b_menu) { 
+                soundhost.get("tick").play();
                 game.InitBeforeLevel();
                 game.DamageTimer=100;
             } else {
+                soundhost.get("shoot"+(num_of_runs%3+1)).play();
                 game.world.InitBeforeLevel();
                 game.HitTimer=100;
             }

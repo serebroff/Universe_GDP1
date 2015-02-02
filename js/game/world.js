@@ -21,18 +21,18 @@ var MASS= 700;
 var BIG_BANG_TIME = 5;
 var COLAPSE_R = 0.3;
 
-var LIGHT_SPEED0 = 40;
+var LIGHT_SPEED0 = 0;
 var LIGHT_SPEED1 = 220;
 
-var GRAVITY0 = 5;
-var GRAVITY1 = 18;
+var GRAVITY0 = 0;
+var GRAVITY1 = 15;
 
-var MASS0= 200;
+var MASS0= 0;
 var MASS1= 1000;
 
-var LIGHT_SPEED_slider=0.3;
-var GRAVITY_slider = 0.3;
-var MASS_slider = 0.3;
+var LIGHT_SPEED_slider=0.33;
+var GRAVITY_slider = 0.33;
+var MASS_slider = 0.33;
 
 
 var num_objects_in_universe=0;
