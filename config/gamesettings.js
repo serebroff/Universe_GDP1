@@ -64,7 +64,7 @@ var levels = [
 
 var gametexts = {
     intro: "This is the Universe before Big Bang",// Use mouse (drag and wheel) to navigate",
-    copyright: "By Alexey Serebrov special for GameGevParty #1. 2015",        
+    copyright: "By Alexey Serebrov special for GameGevParty #1 / 2015",        
     mouse: "Use mouse left button to navigate and wheel to zoom",
     slogan:[
     "This game has no goal",
@@ -76,7 +76,7 @@ var gametexts = {
     [
         "Speed limit of an object in the Universe",
          "Gravitational force that attracts all objects to each other",
-         "Mass of Universe. Big mass can slow down FPS. Can be set up only before Big Bang",
+         "Also number of objects. Set up only before Big Bang. (It can slow down FPS!)",
     ],
             
 };

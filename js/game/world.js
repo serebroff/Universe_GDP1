@@ -18,7 +18,7 @@ WORLD_SIZE_R = 250;
 var LIGHT_SPEED = 120;
 var GRAVITY = 8;
 var MASS= 700;
-var BIG_BANG_TIME = 3;
+var BIG_BANG_TIME = 1;
 var COLAPSE_R = 0.3;
 
 var LIGHT_SPEED0 = 0;
@@ -30,7 +30,7 @@ var GRAVITY1 = 15;
 var MASS0= 0;
 var MASS1= 1000;
 
-var LIGHT_SPEED_slider=0.33;
+var LIGHT_SPEED_slider=0.44;
 var GRAVITY_slider = 0.33;
 var MASS_slider = 0.33;
 
@@ -38,7 +38,7 @@ var MASS_slider = 0.33;
 var num_objects_in_universe=0;
 var universe_size=0;
 var stable_state_time=0;
-var big_bang_time = 5;
+var big_bang_time = 1;
 
 
 var num_of_runs=0;
