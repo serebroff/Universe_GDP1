@@ -78,5 +78,16 @@ var gametexts = {
          "Gravitational force that attracts all objects to each other",
          "Also number of objects. Set up only before Big Bang. (It can slow down FPS!)",
     ],
+    quest:
+    [
+        "Make Universe radius more than 100 B parsec",
+        "Keep 10 objects for 10 sec",
+        "Keep 2 objects for 15 sec",
+        "Keep 5 objects for 10 sec",
+        "Collapse everything in 1 hole",
+        "Make clean area of 1000 parsec around center",
+        "Drop FSP below 10",
+        
+    ]
             
 };
