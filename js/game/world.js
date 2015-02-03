@@ -18,7 +18,7 @@ WORLD_SIZE_R = 250;
 var LIGHT_SPEED = 120;
 var GRAVITY = 8;
 var MASS= 700;
-var BIG_BANG_TIME = 5;
+var BIG_BANG_TIME = 3;
 var COLAPSE_R = 0.3;
 
 var LIGHT_SPEED0 = 0;
